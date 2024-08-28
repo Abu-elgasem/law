@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Define the tree view for the case model -->
+        <record id="view_case_tree" model="ir.ui.view">
+            <field name="name">case tree</field>
+            <field name="model">case</field>
+            <field name="arch" type="xml">
+                <tree string="Case" sample="1">
+                    <field name="name" string="Number" readonly="1" decoration-bf="1"/>
+                    <field name="partners_id"/>
+                    <field name="assigned_lawyer"/>
+                    <field name="date"/>
+                    <field name="product_document_ids"/>
+                    <field name="case_name"/>
+                    <field name="case_type_id"/>
+                    <field name="State"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+     <!-- Define the tree view for the case model -->
+        <record id="view_case_form" model="ir.ui.view">
+            <field name="name">Case form</field>
+            <field name="model">case</field>
+            <field name="arch" type="xml">
+                <form string="Case" js_class="hr_employee_form">
+                    <header>
+                        <button name="action_work_in_progress" type="object"
+                        string="Work In Progress" class="oe_highlight" invisible="State in('work_in_progress', 'done', 'closed')"/>
+                        <button name="action_done" type="object"
+                                string="Done"  class="btn-success" invisible="State in('open', 'done','closed')"/>
+                        <button name="action_closed" type="object"
+                                string="Closed" invisible="State in('done', 'closed')"/>
+                        <field name="State" widget="statusbar" nolabel="1"/>
+                    </header>
+                    <field name="active" invisible="1"/>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="partners_id" widget="res_partner_many2one" placeholder="Type to find a customer..."/>
+                                <field name="case_type_id"/>
+                                <field name="description"/>
+                            </group>
+                            <group>
+                                <field name="case_name"/>
+                                <field name="date_of_judgment"/>
+                                <field name="date"/>
+                                <field name="assigned_lawyer"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Partnies" name="partners">
+                                 <field name="partners_ids" widget="one2many" >
+                                    <tree editable="bottom" create="true">
+                                        <field name="name"/>
+                                        <field name="email"/>
+                                        <field name="phone"/>
+                                    </tree>
+                                    <form>
+                                        <field name="name"/>
+                                        <field name="email"/>
+                                        <field name="phone"/>
+                                    </form>
+                                </field>
+                            </page>
+                            <page string="Document" name="document">
+                              <field name="product_document_ids">
+                                  <tree string="Documents" editable="buttom">
+                                      <field name="name"/>
+                                      <field name="file"/>
+                                  </tree>
+                              </field>
+                            </page>
+                            <page string="Court Details" name="court">
+                                <form>
+                                <div id="o_work_employee_container" class="d-lg-flex">
+                                     <div id="o_work_employee_main">
+                                         <group>
+                                          <group>
+                                             <field name="judge" widget="res_partner_many2one"/>
+                                         </group>
+                                         <group>
+                                             <field name="court_name" />
+                                            <field name="court_docket_number" />
+                                         </group>
+                                         </group>
+                                    </div>
+                                </div>
+                                </form>
+                            </page>
+                             <page string="Hearing" name="hearing">
+                                 <field name="hearing_ids" >
+                                     <tree editable="buttom">
+                                         <field name="scheduling_date"/>
+                                         <field name="note"/>
+                                         <field name="party_id" widget="many2one"/>
+                                     </tree>
+                                 </field>
+                             </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                     </div>
+                </form>
+            </field>
+        </record>
+
+
+        <!-- Kanban View -->
+        <record id="view_case_kanban" model="ir.ui.view">
+            <field name="name">case.kanban</field>
+            <field name="model">case</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="case_name"/>
+                    <field name="partners_id"/>
+                    <field name="date"/>
+                    <field name="product_document_ids"/>
+                    <field name="name"/>
+                    <field name="State"/>
+                    <field name="case_type_id"/>
+                    <templates string="Case"  class="o_hr_employee_kanban" sample="1">
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_hr_kanban_record">
+                                <div class="o_kanban_image">
+                                    <t t-if="record.State.raw_value == 'open'">
+                                        <span class="badge badge-primary">Open</span>
+                                    </t>
+                                    <t t-if="record.State.raw_value == 'work_in_progress'">
+                                        <span class="badge badge-success">Work in progress</span>
+                                    </t>
+                                    <t t-if="record.State.raw_value == 'closed'">
+                                        <span class="badge badge-danger">Closed</span>
+                                    </t>
+                                </div>
+                                <div class="o_kanban_details">
+                                    <strong><field name="case_name"/></strong>
+                                    <div><field name="partners_id"/></div>
+                                    <div><field name="date"/></div>
+                                    <div><field name="case_type_id"/></div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+
+             <!-- Search View -->
+        <record id="view_case_search" model="ir.ui.view">
+            <field name="name">case.search</field>
+            <field name="model">case</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="case_name"/>
+                    <field name="partners_id"/>
+                    <field name="date"/>
+                    <field name="State"/>
+                    <field name="case_type_id"/>
+                    <!--filter -->
+                    <filter string="Open" name="open" domain="[('State','=','open')]"/>
+                    <filter string="Work in progress" name="work_in_progress" domain="[('State','=','work_in_progress')]"/>
+                    <filter string="Closed" name="closed" domain="[('State','=','closed')]"/>
+                    <!--grpup by -->
+                    <filter name="lawyer" string="Lawyer" context="{'group_by':'assigned_lawyer'}"/>
+                </search>
+            </field>
+        </record>
+
+
+     <record id ="case_action_view" model = "ir.actions.act_window">
+        <field name = "name">Case</field>
+        <field name = "res_model">case</field>
+        <field name = "view_mode">kanban,tree,form</field>
+        <field name="domain">[]</field>
+     </record>
+
+
+     <menuitem id="case_action_menu"
+              name="Case" parent="case_main_menu"
+              action="case_action_view" sequence="31"/>
+
+</odoo>

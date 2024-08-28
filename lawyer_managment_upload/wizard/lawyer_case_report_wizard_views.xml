@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+     <record id="view_lawyer_case_report_wizard_form" model="ir.ui.view">
+        <field name="name">lawyer.case.report.wizard.form</field>
+        <field name="model">lawyer.case.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Lawyer Cases Report">
+                <group>
+                    <field name="assigned_lawyer"/>
+                </group>
+                <footer>
+                    <button name="action_print_report" string="Print Report" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+
+
+
+
+
+</odoo>

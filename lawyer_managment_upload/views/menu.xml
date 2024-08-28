@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <menuitem id="lawyer_managment_root"
+              name="Lawyer Managment"
+              web_icon="lawyer_managment,static/description/icon.png"
+              sequence="10"/>
+
+    <menuitem id="lawyer_main_menu"
+              name="Lawyer"
+              parent="lawyer_managment_root"
+              sequence="20"/>
+
+    <menuitem id="case_main_menu"
+              name="Case"
+              parent="lawyer_managment_root"
+              sequence="22"/>
+
+     <!-- Main Menu for report -->
+    <menuitem id="report_main_menu" name="Reports"
+              parent="lawyer_managment_root"
+              sequence="23"/>
+
+
+
+
+</odoo>

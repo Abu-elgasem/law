@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_lawyer,access.lawyer,model_lawyer,base.group_user,1,1,1,1
+access_practice_area,access.practice.area,model_practice_area,base.group_user,1,1,1,1
+access_case,access.case,model_case,base.group_user,1,1,1,1
+access_hearing_case,access.hearing.case,model_hearing_case,base.group_user,1,1,1,1
+access_document,access.document,model_document,base.group_user,1,1,1,1
+access_case_report_wizard,access.case.report.wizard,model_case_report_wizard,base.group_user,1,1,1,1
+access_lawyer_case_report_wizard,access.lawyer.case.report.wizard,model_lawyer_case_report_wizard,base.group_user,1,1,1,1
